@@ -23,9 +23,11 @@ class HessianTools(ORCAParse):
         self.Natoms = int(self.content["atoms"].split("\n")[0][0])
         self.atoms = []
         self.positions = np.ndarray((0, 3))
+        self.masses = []
         for line in self.content["atoms"].split("\n")[1:]:
             line = line.split()
             self.atoms.append(line[0])
+            self.masses.append(line[1])
             self.positions = np.vstack((self.positions, [float(x) for x in line[2:]]))
         self.positions *= 0.52917724900001 # Bohr -> Angstrom
         self.mol = ase.Atoms(self.atoms, self.positions)
